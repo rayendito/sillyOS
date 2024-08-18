@@ -57,6 +57,7 @@ print_hex:
         ; returning to the front
         mov bx, HEX_OUT         ; return to the original first address of the dummy string
         call print_string       ; calling print string
+        call print_newline
     popa
     ret
 
