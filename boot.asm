@@ -1,11 +1,6 @@
 ;where we are in the program
 [org 0x7c00]
 
-
-; setting up es
-mov bx, 0xa000
-mov es, bx
-
 mov [BOOT_DRIVE], dl                ; dl is where BIOS stores our boot code
                                     ; save it to the variable
 
@@ -13,10 +8,9 @@ mov [BOOT_DRIVE], dl                ; dl is where BIOS stores our boot code
 mov bp, 0x8000
 mov sp, bp
 
-;accessing memory
+; accessing memory. dl is already set up on boot
 mov bx, 0x9000
-mov dh, 5
-mov dl, [BOOT_DRIVE]
+mov dh, 2 ; dx at this point is 0x 10 (16 sectors) 80 (boot device)
 call disk_load
 
 ; checking what's inside

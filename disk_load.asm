@@ -5,26 +5,30 @@
 ;   dh : how many sectors to read
 disk_load:
     pusha
-        push dx                 ; 'saving' dx because it conteins dh which tells us how many sectors to read
-        ; setting up the registers
-        mov ah, 0x02            ; function (notice how ah is used, just like the 'mov ah, 0x0e' for printing to screen)
+        ; function (notice how ah is used, just like the 'mov ah, 0x0e' for printing to screen)
+        mov ah, 0x02
 
+        push dx                 ; 'saving' dx because it contains dh which tells us how many sectors to read
+        
+        ;
+        ; setting up the registers
+        ;
         mov al, dh              ; read dh amount of sectors from there
 
         ; which track/cylinder
-        mov ch, 0x00            ; select cylinder 0. begins from outer
+        mov ch, 0               ; select cylinder 0
 
         ; which head/surface (a head corresponds to a surface)
-        mov dh, 0x00            ; select the first surface of the disk.
+        mov dh, 0               ; select the first surface of the disk.
 
-        ; which sector
-        mov cl, 0x02            ; select 2nd sector from the track (just after the bootcode)
+        ; which sector (remember one sector is 512)
+        mov cl, 2               ; select 2nd sector (index starts from 1)
         
         ; interrupt call
         int 0x13
 
         ; checks
-        jc disk_error_carry           ; carry flag error
+        jc disk_error_carry     ; carry flag error
         
         pop dx                  ; dh is now the dx that contains the 'original' dh
         cmp al, dh              ; after the interrupt actual number of sectors read is stored in al
