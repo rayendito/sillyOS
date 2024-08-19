@@ -1,17 +1,17 @@
 ; put string first character in bx
 print_string:
     pusha
-    mov ah, 0x0e ; tele something mode
+        mov ah, 0x0e ; tele something mode
 
-    loop_ps:
-        cmp byte [bx], 0 ; if byte value in address pointed by bx is 0, end loop. [] is dereference
-        je endloop_ps
-        mov al, [bx] ; al is where the ascii byte to print should go. and it's pointed to by bx
-        int 0x10 ; calling the interrupt
-        add bx, 1 ; increment bx to point to the next address
-        jmp loop_ps ; back to loop_ps
-    
-    endloop_ps:
+        loop_ps:
+            cmp byte [bx], 0 ; if byte value in address pointed by bx is 0, end loop. [] is dereference
+            je endloop_ps
+            mov al, [bx] ; al is where the ascii byte to print should go. and it's pointed to by bx
+            int 0x10 ; calling the interrupt
+            add bx, 1 ; increment bx to point to the next address
+            jmp loop_ps ; back to loop_ps
+        
+        endloop_ps:
     popa
     ret
 
@@ -25,7 +25,8 @@ print_newline:
     popa
     ret
 
-; put hex in dx
+; print whatever hex is in
+; dx
 print_hex:
     pusha
         mov bx, HEX_OUT ; move in the default hex string 0x0000
@@ -33,12 +34,12 @@ print_hex:
 
         ; change the contents of bx
         loop_ph:
-            cmp word dx, 0  ; if dx is completely shifted, done
+            cmp word bx, HEX_OUT + 6  ; if bx is 6, done (number of chars in the original string)
             je endloop_ph
             
             mov cx, dx      ; cx as a temporary variable
-            and cx, 0xf000  ; get the LSB only by masking
-            shr cx, 12      ; get this LSB to MSB
+            and cx, 0xf000  ; get the MSB only by masking
+            shr cx, 12      ; get this MSB to LSB
             
             cmp cx, 9       ; if it's a number, add with 0x30 to get the right ascii char
             jle ascii_digit
