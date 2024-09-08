@@ -1,6 +1,6 @@
 # making an Operating System as a normie: a tragic comedy
 
-<img src="pictures/meme.jpeg" width="700">
+<img src="pictures/funny.jpeg" width="700">
 
 
 ## running
