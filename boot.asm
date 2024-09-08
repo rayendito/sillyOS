@@ -30,8 +30,8 @@ call print_hex
 jmp $
 
 ; importing files
-%include "printing.asm"
-%include "disk_load.asm"
+%include "src/printing.asm"
+%include "src/disk_load.asm"
 
 ; global variables
 BOOT_DRIVE:

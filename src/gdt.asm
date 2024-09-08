@@ -46,13 +46,13 @@ gdt_start:
         ; 24:31 base
         db 0x0
 
+    ;everything else is the same but the 'type' bits
     gdt_data:
         dw 0xffff   ;0:15 limit (db is 8 bit)
         
         dw 0x0      ;0:15 base
         db 0x0      ;16:23 base
         
-        ;everything else is the same but the 'type' bits
         ; type :
         ;           : code/data
         ;           : conforming

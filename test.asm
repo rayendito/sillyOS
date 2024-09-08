@@ -6,7 +6,7 @@ call print_string_pm
 
 jmp $
 
-%include "printing_pm.asm"
+%include "src/printing_pm.asm"
 
 the_string:
     db 'it runs lmao', 0
