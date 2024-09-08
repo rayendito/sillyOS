@@ -71,8 +71,9 @@ gdt_end:
 
 ;GDT descriptor
 gdt_descriptor:
-    dw gdt_end - gdt_start - 1 ; minus one because?
+    dw gdt_end - gdt_start - 1 ; minus one because???? i think it's just how the lgdt command asks it to be
     dd gdt_start 
 
+; offsets from the beginning of the GDT (so we can jump to these addresses directly)
 CODE_SEG equ gdt_code - gdt_start
 DATA_SEG equ gdt_data - gdt_start
