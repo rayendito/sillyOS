@@ -1,3 +1,6 @@
+; =======================================================
+; This file defines the contents of the GDT
+; =======================================================
 ; GDT can be thought of as an array of segment descriptors
 ; like in the name "segment descriptors", each entry describes
 ; a segment in the memory (where is it, how big it is, who can access it)
@@ -69,11 +72,11 @@ gdt_start:
 
 gdt_end:
 
-;GDT descriptor
+;GDT descriptor (to give to the lgdt command)
 gdt_descriptor:
-    dw gdt_end - gdt_start - 1 ; minus one because???? i think it's just how the lgdt command asks it to be
-    dd gdt_start 
+    dw gdt_end - gdt_start - 1 ; minus one because? a convention i think, the lgdt command expects it to be -1
+    dd gdt_start
 
-; offsets from the beginning of the GDT (so we can jump to these addresses directly)
+; addresses of code and data segment (relative to the beginning of the GDT)
 CODE_SEG equ gdt_code - gdt_start
 DATA_SEG equ gdt_data - gdt_start
