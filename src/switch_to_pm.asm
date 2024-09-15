@@ -12,7 +12,20 @@ switch_to_pm:
     ; far jump is when you do a jump that uses ":" then i assume?
     ; we need to "force" to do this so that it triggers the "flush"
     ; it's current operations
+    ; flushing the pipeline means completing all instructions currently in different stages of the pipeline
+    ; a stage of a pipeline can be
+    ; - fetching from memory
+    ; - executing
+    ; - putting back to memory
+    ; - etc
     jmp CODE_SEG:init_pm
+    ; the cs (code segment) is automatically updated when we do far jumps like this
+    ; we're trying to change the real mode code segment to our defined protected mode code segment (which is a segment selector)
+
+    ; in x86 protected mode, segment registers hold segment selectors,
+    ; which are used to index into the GDT to find the base address and other attributes of the segment.
+    ; segment selectors are 16 bits, bit 3-15 contain the actual index
+    ; CS = 0x08 is a segment selector value, not a direct memory offset. (although yea it's kinda convenient)
 
 [bits 32]
 init_pm:

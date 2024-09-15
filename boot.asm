@@ -15,9 +15,9 @@ BEGIN_RM:
 
 ; imports
 %include "src/printing.asm"             ; for printing in real mode
+%include "src/gdt.asm"                  ; defining the actual contents of the GDT
 %include "src/switch_to_pm.asm"         ; switching to protected mode
 %include "src/printing_pm.asm"          ; printing in protected mode
-%include "src/gdt.asm"                  ; defining the actual contents of the GDT
 
 [bits 32] ; 32-bit instructions (we already did this on switch_to_pm.asm but let's call it again for clarity lol)
 BEGIN_PM:
