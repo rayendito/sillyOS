@@ -1,4 +1,4 @@
-[bits 16] ; 16-bit instructions (don't really need to do this, but just for clarity)
+[bits 16] ; 16-bit instructions (don't really need to do this bc at this point it's already default, but just for clarity)
 [org 0x7c00] ; BIOS places the OS instructions in this address. so assume everything begins here
 BEGIN_RM:
     ; setting up stack

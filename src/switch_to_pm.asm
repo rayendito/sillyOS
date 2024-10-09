@@ -1,7 +1,7 @@
 [bits 16]
 switch_to_pm:
     cli         ; chatgpt says: When you use CLI (Clear Interrupt Flag), it only disables maskable hardware interrupts, not software interrupts like INT 0x10.
-    lgdt [gdt_descriptor]
+    lgdt [gdt_descriptor] ; load gdt command. this command will load 6 bytes, which is the GDT descriptor defined in gdt.asm
 
     ; the first bit of cr0 is the "turn on 32-bit" switch, basically
     ; but we cant set it directly, so we use eax
@@ -10,8 +10,7 @@ switch_to_pm:
     mov cr0, eax
 
     ; far jump is when you do a jump that uses ":" then i assume?
-    ; we need to "force" to do this so that it triggers the "flush"
-    ; it's current operations
+    ; we need to "force" to do this so that it triggers the "flush" it's current operations
     ; flushing the pipeline means completing all instructions currently in different stages of the pipeline
     ; a stage of a pipeline can be
     ; - fetching from memory
@@ -19,8 +18,9 @@ switch_to_pm:
     ; - putting back to memory
     ; - etc
     jmp CODE_SEG:init_pm
-    ; the cs (code segment) is automatically updated when we do far jumps like this
     ; we're trying to change the real mode code segment to our defined protected mode code segment (which is a segment selector)
+    ; long jumps like this no longes shifts left by 4 bits because we're in protected mode alr
+    ; the whole thing resolves the base address, etc from the segment selector we provide it, the CODE_SEG in this case
 
     ; in x86 protected mode, segment registers hold segment selectors,
     ; which are used to index into the GDT to find the base address and other attributes of the segment.

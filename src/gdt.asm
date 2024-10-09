@@ -78,5 +78,8 @@ gdt_descriptor:
     dd gdt_start
 
 ; addresses of code and data segment (relative to the beginning of the GDT)
-CODE_SEG equ gdt_code - gdt_start
-DATA_SEG equ gdt_data - gdt_start
+; these are called segment selectors
+; 3 first bits are RPL (Request Privilege Level) and TI (Table Indicator)
+; rest are index in the GDT
+CODE_SEG equ gdt_code - gdt_start ; 8 is 0000 1000 = 0000 1 is 1
+DATA_SEG equ gdt_data - gdt_start ; 16 is 0001 0000 = 0001 0 is 2
