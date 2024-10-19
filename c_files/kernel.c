@@ -3,6 +3,9 @@
 // x86_64-elf-gcc c_files/kernel.c -c -o c_files/kernel.o
 // linking
 // x86_64-elf-ld -o bin/kernel.bin -Ttext 0x1000 c_files/kernel.o --oformat binary
+
+// if developing using x86 architectures, normal gcc should be ok?
+
 // ========================================================================
 // note on -Ttext
 // basically this specifies the offset of this code
