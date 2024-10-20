@@ -2,7 +2,7 @@ PAD_SIZE := 8192
 
 # Default target
 all:
-	# compiling and linking kernel with 
+	# compiling and linking kernel, and compiling boot.asm
 	x86_64-elf-gcc -ffreestanding src/c/kernel.c -c -o obj/kernel.o
 	x86_64-elf-ld -o bin/kernel.bin -Ttext 0x1000 obj/kernel.o --oformat binary
 	nasm boot.asm -f bin -o bin/boot.bin
@@ -11,10 +11,7 @@ all:
 	cat bin/boot.bin bin/kernel.bin > images/silly-os
 
 	# padding to 16 bytes
-	actual_size=$(shell stat -f "%z" images/silly-os); \
-	if [ $$actual_size -lt $(PAD_SIZE) ]; then \
-		dd if=/dev/zero bs=1 count=$$(( $(PAD_SIZE) - $$actual_size )) >> images/silly-os; \
-	fi
+	./src/sh/pad_img.sh
 
 	# running qemu
 	qemu-system-x86_64 -drive format=raw,file=images/silly-os
