@@ -15,6 +15,10 @@
 // i think we can set this to anywhere? (unlike boot code which has to be on 0x7c00)
 // why 0x7c00? https://f.osdev.org/viewtopic.php?t=24129
 
+void some_other_function(){
+    return;
+}
+
 void main() {
     // where video memory is
     char* video_memory = (char*) 0xb8000;
