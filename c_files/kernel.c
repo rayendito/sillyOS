@@ -4,7 +4,7 @@
 // linking
 // x86_64-elf-ld -o bin/kernel.bin -Ttext 0x1000 c_files/kernel.o --oformat binary
 
-// if developing using x86 architectures, normal gcc should be ok?
+// if developing using x86 architectures, the usual gcc and ld should be ok?
 
 // ========================================================================
 // note on -Ttext
@@ -16,7 +16,7 @@
 // why 0x7c00? https://f.osdev.org/viewtopic.php?t=24129
 
 void main() {
-    // where video memory resides
+    // where video memory is
     char* video_memory = (char*) 0xb8000;
 
     // add something to the video memory

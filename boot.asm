@@ -34,7 +34,7 @@ load_kernel:
     call print_newline
 
     mov bx, KERNEL_OFFSET   ; where to store the read bytes into
-    mov dh, 1               ; how many sectors to read
+    mov dh, 15              ; how many sectors to read
     mov dl, [BOOT_DRIVE]    ; which boot drive
     call disk_load          ; note: we didn't specify which sector bc in this disk_load routine, it's alr hardcoded begin from the second sector
     ret
