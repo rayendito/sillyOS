@@ -20,11 +20,11 @@ BEGIN_RM:
     jmp $
 
 ; imports
-%include "src/printing.asm"             ; for printing in real mode
-%include "src/disk_load.asm"            ; for loading 
-%include "src/gdt.asm"                  ; defining the actual contents of the GDT
-%include "src/switch_to_pm.asm"         ; switching to protected mode
-%include "src/printing_pm.asm"          ; printing in protected mode
+%include "src/asm/printing.asm"             ; for printing in real mode
+%include "src/asm/disk_load.asm"            ; for loading 
+%include "src/asm/gdt.asm"                  ; defining the actual contents of the GDT
+%include "src/asm/switch_to_pm.asm"         ; switching to protected mode
+%include "src/asm/printing_pm.asm"          ; printing in protected mode
 
 [bits 16] ; 16-bit instructions for loading the kernel code to 0x1000
 load_kernel:

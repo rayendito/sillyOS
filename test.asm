@@ -10,8 +10,8 @@ call print_string_pm
 
 jmp $
 
-%include "src/printing_pm.asm"
-%include "src/printing.asm"
+%include "src/asm/printing_pm.asm"
+%include "src/asm/printing.asm"
 
 
 the_string:
