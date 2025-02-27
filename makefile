@@ -1,21 +1,26 @@
-PAD_SIZE := 8192
+# PAD_SIZE := 8192
 
-# Default target
-all:
-	# compiling and linking kernel (including kernel entry), and compiling boot.asm
-	nasm src/asm/kernel_entry.asm -f elf64 -o obj/kernel_entry.o #elf64 because https://forum.nasm.us/index.php?topic=754.0
-	x86_64-elf-gcc -ffreestanding src/c/kernel.c -c -o obj/kernel.o
-	x86_64-elf-ld -o bin/kernel.bin -Ttext 0x1000 obj/kernel_entry.o obj/kernel.o --oformat binary
-	nasm boot.asm -f bin -o bin/boot.bin
-	
-	# making an OS image (first sector is boot. rest is kernel)
-	cat bin/boot.bin bin/kernel.bin > images/silly-os
+all: images/silly-os
+	qemu-system-x86_64 -drive format=raw,file=$<
 
-	# padding to 16 bytes
+images/silly-os: bin/boot.bin bin/kernel.bin
+	cat $^ > $@
 	./src/sh/pad_img.sh
 
-	# running qemu
-	qemu-system-x86_64 -drive format=raw,file=images/silly-os
+bin/boot.bin: boot.asm
+	nasm $< -f bin -o $@
+
+bin/kernel.bin: obj/kernel_entry.o obj/kernel.o
+	x86_64-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
+
+obj/kernel_entry.o: src/asm/kernel_entry.asm
+	nasm $< -f elf64 -o $@
+
+obj/kernel.o: src/c/kernel.c
+	x86_64-elf-gcc -ffreestanding $< -c -o $@
+
+clean:
+	rm bin/*.bin obj/*.o
 
 test:
 	nasm test.asm -f bin -o bin/test.bin
