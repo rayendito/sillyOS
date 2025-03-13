@@ -15,14 +15,43 @@
 // i think we can set this to anywhere? (unlike boot code which has to be on 0x7c00)
 // why 0x7c00? https://f.osdev.org/viewtopic.php?t=24129
 
-void some_other_function(){
+void clear_screen_text_mode(){
+    char BLANK_CHAR = ' ';
+    int WHITE_TXT_BLACK_BG = 0x0F;
+    
+    char* video_memory = (char*) 0xb8000;
+    for(int i = 0; i <= 80 * 25; i++){
+        video_memory[i*2 + 1] = BLANK_CHAR;
+        video_memory[i*2 + 2] = WHITE_TXT_BLACK_BG;
+    }
+    return;
+}
+
+void print_shell(){
+    char* video_memory = (char*) 0xb8000;
+    video_memory[1] = 's';
+    video_memory[3] = 'i';
+    video_memory[5] = 'l';
+    video_memory[7] = 'l';
+    video_memory[9] = 'y';
+    
+    video_memory[11] = '@';
+
+    video_memory[13] = 'O';
+    video_memory[15] = 'S';
+
+    video_memory[17] = ':';
+
+    video_memory[19] = '/';
+    video_memory[21] = '$';
     return;
 }
 
 void main() {
+    // clearing the secreen
+    clear_screen_text_mode();
+    print_shell();
+
     // where video memory is
     char* video_memory = (char*) 0xb8000;
-
-    // add something to the video memory
-    *video_memory = 'P';
 }

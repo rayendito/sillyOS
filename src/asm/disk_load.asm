@@ -1,3 +1,4 @@
+; wiki for this disk interrupt: https://wiki.osdevzx.org/Disk_access_using_the_BIOS_(INT_13h)
 ; args
 ; bx : what memory address to store the data into
 ; dx (split into dh and dl) :
